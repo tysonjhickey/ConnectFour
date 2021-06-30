@@ -1,9 +1,7 @@
 function initBoard() {
     if (typeof(Storage) !== "undefined") {
         sessionStorage.setItem("boardSize", parseInt(document.getElementById("initboard").value));
-        //console.log("boardSize: " + sessionStorage.getItem("boardSize"));
         sessionStorage.setItem("players", parseInt(document.getElementById("initplayers").value));
-        //console.log("players: " + sessionStorage.getItem("players"))
         sessionStorage.setItem("currentPlayer", "X");
         var table = document.createElement("TABLE");
         table.setAttribute("id", "board");
@@ -32,25 +30,20 @@ function initBoard() {
 }
 
 function takeCell(cell) {
-    //console.log(cell.id.substring(0, 1));
-    //console.log(cell.id.substring(1, 2));
     x = cell.id.substring(0, 1);
     for (var i=sessionStorage.getItem("boardSize")-1; i>=0; i--) {
         var currentCell = document.getElementById(x + String(i));
-        //console.log(currentCell);
         if (currentCell.getAttribute("class") == "") {
             currentCell.setAttribute("class", sessionStorage.getItem("currentPlayer"))
-            /*
-            if (sessionStorage.getItem("currentPlayer") == "X") {
-                currentCell.setAttribute("style", "background-color:black;");
-            } else {
-                currentCell.setAttribute("style", "background-color:red;");
-            }
-            */
-            //currentCell.textContent = sessionStorage.getItem("currentPlayer")
             if (checkWin(currentCell)) {
                 removeOnclick();
                 var br = document.createElement("br");
+                var p = document.createElement("p");
+                if (sessionStorage.getItem("currentPlayer") == "X") {
+                    p.textContent = "Black Wins!"
+                } else {
+                    p.textContent = "Red Wins!"
+                }
                 var btn1 = document.createElement("button");
                 btn1.setAttribute("onclick", "reload()");
                 btn1.textContent = "Exit";
@@ -58,6 +51,26 @@ function takeCell(cell) {
                 btn2.setAttribute("onclick", "resetBoard()");
                 btn2.textContent = "Reset Board"
                 var container = document.getElementById("boardcontainer");
+                container.appendChild(br);
+                container.appendChild(p);
+                container.appendChild(br);
+                container.appendChild(btn1);
+                container.appendChild(btn2);
+            }
+            if (checkTie()) {
+                removeOnclick();
+                var br = document.createElement("br");
+                var p = document.createElement("p");
+                p.textContent = "Tie Game!"
+                var btn1 = document.createElement("button");
+                btn1.setAttribute("onclick", "reload()");
+                btn1.textContent = "Exit";
+                var btn2 = document.createElement("button");
+                btn2.setAttribute("onclick", "resetBoard()");
+                btn2.textContent = "Reset Board"
+                var container = document.getElementById("boardcontainer");
+                container.appendChild(br);
+                container.appendChild(p);
                 container.appendChild(br);
                 container.appendChild(btn1);
                 container.appendChild(btn2);
@@ -103,6 +116,20 @@ function checkWin(cell) {
     return false;
 }
 
+function checkTie() {
+    var cells = sessionStorage.getItem("boardSize");
+    for (var i=0; i<cells; i++) {
+        for (var j=0; j<cells; j++) {
+            var cCell = String(i) + String(j);
+            cCell = document.getElementById(cCell);
+            if (cCell.getAttribute("class") == "") {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 function reload() {
     window.location.reload();
 }
@@ -140,4 +167,3 @@ function removeOnclick() {
         }
     }
 }
-//hello

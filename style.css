@@ -1,16 +1,22 @@
-
 body {
     max-width: 1000px;
     margin:auto;
-    background-color:rgb(56, 58, 58);
+    background-image: url(img/background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
     border-left: 2px solid black;
     border-right: 2px solid black;
 }
 
+h1 {
+    padding-top: 50px;
+}
+
 .container {
+    font-size: larger;
     min-height: 1000px;
     text-align: center;
-    background-color: rgb(116, 233, 161);
+    background-color: ivory;
 }
 
 .board{
@@ -44,4 +50,3 @@ td{
 .O {
     background-color: red;
 }
-
