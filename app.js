@@ -13,6 +13,8 @@ function initBoard() {
             for (var j=0; j<sessionStorage.getItem("boardSize"); j++) {
                 var td = document.createElement("TD");
                 td.setAttribute("onclick", "takeCell(this)");
+                td.setAttribute("class", "");
+                td.setAttribute("style", "");
                 loc = String(j) + String(i);
                 td.setAttribute("id", loc)
                 tr.appendChild(td)
@@ -36,8 +38,16 @@ function takeCell(cell) {
     for (var i=sessionStorage.getItem("boardSize")-1; i>=0; i--) {
         var currentCell = document.getElementById(x + String(i));
         //console.log(currentCell);
-        if (currentCell.textContent == "") {
-            currentCell.textContent = sessionStorage.getItem("currentPlayer")
+        if (currentCell.getAttribute("class") == "") {
+            currentCell.setAttribute("class", sessionStorage.getItem("currentPlayer"))
+            /*
+            if (sessionStorage.getItem("currentPlayer") == "X") {
+                currentCell.setAttribute("style", "background-color:black;");
+            } else {
+                currentCell.setAttribute("style", "background-color:red;");
+            }
+            */
+            //currentCell.textContent = sessionStorage.getItem("currentPlayer")
             if (checkWin(currentCell)) {
                 removeOnclick();
                 var br = document.createElement("br");
@@ -81,7 +91,7 @@ function checkWin(cell) {
             && (currentCellY + modY) >= 0 && (currentCellY + modY) < sessionStorage.getItem("boardSize")) {
                 var checkCell = String(currentCellX + modX) + String(currentCellY + modY);
                 checkCell = document.getElementById(checkCell);
-                if (checkCell.innerText == currentPlayer) {
+                if (checkCell.getAttribute("class") == currentPlayer) {
                     counter++;
                 }
             }
@@ -106,6 +116,8 @@ function resetBoard() {
         for (var j=0; j<sessionStorage.getItem("boardSize"); j++) {
             var td = document.createElement("TD");
             td.setAttribute("onclick", "takeCell(this)");
+            td.setAttribute("class", "");
+            td.setAttribute("style", "");
             loc = String(j) + String(i);
             td.setAttribute("id", loc)
             tr.appendChild(td)
